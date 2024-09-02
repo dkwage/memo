@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>웹 메모장</title>
+    <meta property="og:description" content="url로 공유하는 웹 메모장" />
+    <link
+      rel="stylesheet"
+      as="style"
+      crossorigin
+      href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/font-nanum/1.0/nanumgothic/nanumgothic.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+
+    <style>
+      body {
+        font-family: Pretendard;
+        background-color: white;
+      }
+      .container {
+        margin: 50px auto;
+        max-width: 800px;
+        background-color: white;
+        padding: 20px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+        height: 70vh;
+      }
+      textarea {
+        width: 100%;
+        height: 300px;
+        border: 1px solid #ccc; /* 'solid' 스타일과 검은색(#000)으로 테두리 색상 지정 */
+        border-radius: 5px;
+        padding: 10px;
+        font-size: 16px;
+        resize: none;
+      }
+      button {
+        cursor: pointer;
+        margin-right: 10px;
+      }
+      .align {
+        display: inline-block;
+        margin-right: 10px;
+      }
+
+      div {
+        margin-bottom: 10px;
+      }
+
+      select {
+        margin-bottom: 10px;
+      }
+    </style>
+
+    <link
+      rel="apple-touch-icon-precomposed"
+      sizes="57x57"
+      href="./favicon/apple-touch-icon-57x57.png"
+    />
+    <link
+      rel="apple-touch-icon-precomposed"
+      sizes="114x114"
+      href="./favicon/apple-touch-icon-114x114.png"
+    />
+    <link
+      rel="apple-touch-icon-precomposed"
+      sizes="72x72"
+      href="./favicon/apple-touch-icon-72x72.png"
+    />
+    <link
+      rel="apple-touch-icon-precomposed"
+      sizes="144x144"
+      href="./favicon/apple-touch-icon-144x144.png"
+    />
+    <link
+      rel="apple-touch-icon-precomposed"
+      sizes="60x60"
+      href="./favicon/apple-touch-icon-60x60.png"
+    />
+    <link
+      rel="apple-touch-icon-precomposed"
+      sizes="120x120"
+      href="./favicon/apple-touch-icon-120x120.png"
+    />
+    <link
+      rel="apple-touch-icon-precomposed"
+      sizes="76x76"
+      href="./favicon/apple-touch-icon-76x76.png"
+    />
+    <link
+      rel="apple-touch-icon-precomposed"
+      sizes="152x152"
+      href="./favicon/apple-touch-icon-152x152.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      href="./favicon/favicon-196x196.png"
+      sizes="196x196"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      href="./favicon/favicon-96x96.png"
+      sizes="96x96"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      href="./favicon/favicon-32x32.png"
+      sizes="32x32"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      href="./favicon/favicon-16x16.png"
+      sizes="16x16"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      href="./favicon/favicon-128.png"
+      sizes="128x128"
+    />
+  </head>
+  <!-- Google tag (gtag.js) -->
+  <script
+    async
+    src="https://www.googletagmanager.com/gtag/js?id=G-S4V94NGWCK"
+  ></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag("js", new Date());
+
+    gtag("config", "G-S4V94NGWCK");
+  </script>
+  <body>
+    <div class="container">
+      <h1>웹 메모장</h1>
+      <div class="row mb-3">
+        <div class="col-md-6">
+          <button class="btn btn-success" onclick="saveMemo()">
+            <i class="bi bi-save"></i> 저장 및 url 복사
+          </button>
+          <!-- <button class="btn btn-primary" onclick="loadMemo()">
+            <i class="bi bi-folder2-open"></i> 불러오기
+          </button> -->
+        </div>
+        <div class="col-md-6 text-end">
+          <select class="form-select" onchange="changeFont()">
+            <option value="Pretendard, sans-serif">Pretendard</option>
+            <option value="Arial, sans-serif">Arial</option>
+            <option value="Times New Roman, serif">Times New Roman</option>
+            <option value="Courier New, monospace">Courier New</option>
+            <option value="Verdana, sans-serif">Verdana</option>
+            <option value="Nanum Gothic, sans-serif">나눔고딕</option>
+          </select>
+          <select class="form-select" onchange="changeFontSize()">
+            <option value="10px">작게</option>
+            <option value="14px">보통</option>
+            <option value="18px">크게</option>
+          </select>
+          <div class="align">
+            <button class="btn btn-outline-secondary" onclick="alignLeft()">
+              <i class="bi bi-text-left"></i> 왼쪽 정렬
+            </button>
+            <button class="btn btn-outline-secondary" onclick="alignCenter()">
+              <i class="bi bi-text-center"></i> 가운데 정렬
+            </button>
+            <button class="btn btn-outline-secondary" onclick="alignRight()">
+              <i class="bi bi-text-right"></i> 오른쪽 정렬
+            </button>
+          </div>
+        </div>
+      </div>
+      <textarea id="memo"></textarea>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+      //   function saveMemo() {
+      //     var memo = document.getElementById("memo").value;
+      //     localStorage.setItem("memo", memo);
+
+      //     // 텍스트 파일로 저장
+      //     var textFile = null;
+      //     var data = new Blob([memo], { type: "text/plain" });
+
+      //     if (textFile !== null) {
+      //       window.URL.revokeObjectURL(textFile);
+      //     }
+
+      //     textFile = window.URL.createObjectURL(data);
+
+      //     var link = document.createElement("a");
+      //     link.setAttribute("download", "memo.txt");
+      //     link.href = textFile;
+      //     document.body.appendChild(link);
+
+      //     link.click();
+      //     alert("메모가 저장되었습니다.");
+      //   }
+
+      window.onload = function () {
+        // URL에서 'data' 쿼리 파라미터의 값을 가져옵니다.
+        const params = new URLSearchParams(window.location.search);
+        const encodedMemo = params.get("data");
+
+        // 'data' 쿼리 파라미터가 있으면, 이를 디코드하여 메모창에 표시합니다.
+        if (encodedMemo) {
+          try {
+            const decodedMemo = decodeURIComponent(atob(encodedMemo));
+            document.getElementById("memo").value = decodedMemo;
+          } catch (err) {
+            console.error("메모를 디코드하는 데 실패했습니다.", err);
+          }
+        }
+      };
+
+      async function saveMemo() {
+        var memo = document.getElementById("memo").value;
+
+        // 메모를 Base64로 인코딩 후 URL에 안전한 형태로 인코딩
+        var encodedMemo = encodeURIComponent(btoa(encodeURIComponent(memo)));
+
+        // 인코딩된 메모를 URL의 일부로 만듭니다.
+        var memoURL = `https://dkwage.com/memo/index.html?data=${encodedMemo}`;
+
+        // 클립보드에 URL을 복사합니다.
+        try {
+          await navigator.clipboard.writeText(memoURL);
+          alert("메모 URL이 클립보드에 복사되었습니다.");
+        } catch (err) {
+          console.error("클립보드에 복사하는 데 실패했습니다.", err);
+          alert("클립보드에 복사하는 데 실패했습니다.");
+        }
+      }
+
+      function loadMemo() {
+        // URL에서 'data' 쿼리 파라미터의 값을 가져옵니다.
+        const params = new URLSearchParams(window.location.search);
+        const encodedMemo = params.get("data");
+
+        // 'data' 쿼리 파라미터가 있으면, 이를 디코드하여 메모창에 표시합니다.
+        if (encodedMemo) {
+          try {
+            // URL에서 읽은 값을 디코드
+            const decodedMemo = decodeURIComponent(
+              atob(decodeURIComponent(encodedMemo))
+            );
+            document.getElementById("memo").value = decodedMemo;
+            alert("URL에서 메모가 불러와졌습니다.");
+          } catch (err) {
+            console.error("메모를 디코드하는 데 실패했습니다.", err);
+            alert("메모를 불러오는 데 실패했습니다.");
+          }
+          // } else {
+          //   // URL에 'data' 쿼리 파라미터가 없으면, localStorage에서 메모를 불러옵니다.
+          //   var memo = localStorage.getItem("memo");
+          //   if (memo) {
+          //     document.getElementById("memo").value = memo;
+          //     alert("localStorage에서 메모가 불러와졌습니다.");
+          //   } else {
+          //     alert("저장된 메모가 없습니다.");
+          //   }
+        }
+      }
+
+      function changeFont() {
+        var font = document.querySelector("select").value;
+        document.getElementById("memo").style.fontFamily = font;
+      }
+
+      function changeFontSize() {
+        var size = document.querySelectorAll("select")[1].value;
+        document.getElementById("memo").style.fontSize = size;
+      }
+
+      function alignLeft() {
+        document.getElementById("memo").style.textAlign = "left";
+      }
+
+      function alignCenter() {
+        document.getElementById("memo").style.textAlign = "center";
+      }
+
+      function alignRight() {
+        document.getElementById("memo").style.textAlign = "right";
+      }
+    </script>
+  </body>
+</html>
