@@ -5,6 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>웹 메모장</title>
     <meta property="og:description" content="url로 공유하는 웹 메모장" />
+    <meta property="og:image" content="/favicon/apple-touch-icon-167x167.png" />
+    <meta
+      name="theme-color"
+      media="(prefers-color-scheme: light)"
+      content="#2c3e50"
+    />
+    <meta
+      name="theme-color"
+      media="(prefers-color-scheme: dark)"
+      content="#2c3e50"
+    />
     <link
       rel="stylesheet"
       as="style"
@@ -19,6 +30,7 @@
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css"
       rel="stylesheet"
     />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.5.0/lz-string.min.js"></script>
 
     <style>
       body {
@@ -236,7 +248,6 @@
       //     link.click();
       //     alert("메모가 저장되었습니다.");
       //   }
-
       window.onload = function () {
         // URL에서 'data' 쿼리 파라미터의 값을 가져옵니다.
         const params = new URLSearchParams(window.location.search);
@@ -245,10 +256,17 @@
         // 'data' 쿼리 파라미터가 있으면, 이를 디코드하여 메모창에 표시합니다.
         if (encodedMemo) {
           try {
-            const decodedMemo = decodeURIComponent(atob(encodedMemo));
-            document.getElementById("memo").value = decodedMemo;
+            console.log("Encoded Memo from URL:", encodedMemo);
+
+            // URL에서 읽은 값을 디코드하고 압축 해제
+            const decodedMemo =
+              LZString.decompressFromEncodedURIComponent(encodedMemo);
+            console.log("Decoded Memo:", decodedMemo);
+
+            document.getElementById("memo").value = decodedMemo || "";
           } catch (err) {
             console.error("메모를 디코드하는 데 실패했습니다.", err);
+            alert("메모를 불러오는 데 실패했습니다.");
           }
         }
       };
@@ -256,11 +274,13 @@
       async function saveMemo() {
         var memo = document.getElementById("memo").value;
 
-        // 메모를 Base64로 인코딩 후 URL에 안전한 형태로 인코딩
-        var encodedMemo = encodeURIComponent(btoa(encodeURIComponent(memo)));
+        // 메모를 압축하고 URL에 안전한 형태로 인코딩
+        var compressedMemo = LZString.compressToEncodedURIComponent(memo);
+        console.log("Compressed Memo:", compressedMemo);
 
         // 인코딩된 메모를 URL의 일부로 만듭니다.
-        var memoURL = `https://dkwage.com/memo/index.html?data=${encodedMemo}`;
+        var memoURL = `https://dkwage.com/memo/?data=${compressedMemo}`;
+        console.log("Memo URL:", memoURL);
 
         // 클립보드에 URL을 복사합니다.
         try {
@@ -272,35 +292,29 @@
         }
       }
 
-      function loadMemo() {
-        // URL에서 'data' 쿼리 파라미터의 값을 가져옵니다.
-        const params = new URLSearchParams(window.location.search);
-        const encodedMemo = params.get("data");
+      // function loadMemo() {
+      //   // URL에서 'data' 쿼리 파라미터의 값을 가져옵니다.
+      //   const params = new URLSearchParams(window.location.search);
+      //   const encodedMemo = params.get("data");
 
-        // 'data' 쿼리 파라미터가 있으면, 이를 디코드하여 메모창에 표시합니다.
-        if (encodedMemo) {
-          try {
-            // URL에서 읽은 값을 디코드
-            const decodedMemo = decodeURIComponent(
-              atob(decodeURIComponent(encodedMemo))
-            );
-            document.getElementById("memo").value = decodedMemo;
-            alert("URL에서 메모가 불러와졌습니다.");
-          } catch (err) {
-            console.error("메모를 디코드하는 데 실패했습니다.", err);
-            alert("메모를 불러오는 데 실패했습니다.");
-          }
-          // } else {
-          //   // URL에 'data' 쿼리 파라미터가 없으면, localStorage에서 메모를 불러옵니다.
-          //   var memo = localStorage.getItem("memo");
-          //   if (memo) {
-          //     document.getElementById("memo").value = memo;
-          //     alert("localStorage에서 메모가 불러와졌습니다.");
-          //   } else {
-          //     alert("저장된 메모가 없습니다.");
-          //   }
-        }
-      }
+      //   // 'data' 쿼리 파라미터가 있으면, 이를 디코드하여 메모창에 표시합니다.
+      //   if (encodedMemo) {
+      //     try {
+      //       console.log("Encoded Memo from URL:", encodedMemo);
+
+      //       // URL에서 읽은 값을 디코드하고 압축 해제
+      //       const decodedMemo =
+      //         LZString.decompressFromEncodedURIComponent(encodedMemo);
+      //       console.log("Decoded Memo:", decodedMemo);
+
+      //       document.getElementById("memo").value = decodedMemo || "";
+      //       alert("URL에서 메모가 불러와졌습니다.");
+      //     } catch (err) {
+      //       console.error("메모를 디코드하는 데 실패했습니다.", err);
+      //       alert("메모를 불러오는 데 실패했습니다.");
+      //     }
+      //   }
+      // }
 
       function changeFont() {
         var font = document.querySelector("select").value;

@@ -22,5 +22,10 @@ url로 공유 가능한 웹 메모장
 <h4>Ver1.1 - 09.21.24</h4>
 <ul>
 <li><a href="https://velog.io/@gytks4/HTMLJavaScript-%EA%B8%80%EC%9E%90%EC%88%98%EC%84%B8%EA%B8%B0-Byte-%EC%84%B8%EA%B8%B0-%EA%B5%AC%ED%98%84%EC%A0%95%EA%B7%9C%EC%8B%9D-%EC%82%AC%EC%9A%A9-%EC%97%B0%EC%8A%B5-omf6o5xx">euijinkk.log</a>를 이용해 글자수 카운팅 기능 추가
+</ul>
 
+<h4>Ver1.2 - 09.28.24</h4>
+<ul>
+<li>lz-string 라이브러리 이용해 base64 스트링 압축, 5배 압축으로 url 줄임
+<li>og-image, theme-color 추가
 </ul>
