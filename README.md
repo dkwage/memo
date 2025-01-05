@@ -29,3 +29,8 @@ url로 공유 가능한 웹 메모장
 <li>lz-string 라이브러리 이용해 base64 스트링 압축, 5배 압축으로 url 줄임
 <li>og-image, theme-color 추가
 </ul>
+
+<h4>Ver1.3 - 01.05.25</h4>
+<ul>
+<li>textarea 원문 복사 기능 추가
+</ul>
